@@ -57,7 +57,8 @@
     // todo: fill in all these functions - they'll help you!
 
     hasRowConflictAt: function(rowIndex){
-      return _.contains(this._currentAttributes[rowIndex], 1);
+      var result = this._currentAttributes[rowIndex];
+      return _.contains(result, 1);
     },
 
     hasAnyRowConflicts: function(){
@@ -70,18 +71,19 @@
       return result; // fixme
     },
 
-    hasColConflictAt: function(colIndex){
-      return false; // fixme
-    },
+     hasColConflictAt: function(colIndex){
+       var result = this._currentAttributes[colIndex];
+       return _.contains(result, 1);
+     },
 
-    hasAnyColConflicts: function(){
+     hasAnyColConflicts: function(){
       var result = false;
       for (var i = 0; i < this._currentAttributes.n; i++){
         result = this.hasColConflictAt(i);
         if (result) { break; }
       }
       return result; // fixme
-    },
+     },
 
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow){
       return false; // fixme
