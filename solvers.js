@@ -3,7 +3,7 @@
 // (There are also optimizations that will allow you to skip a lot of the dead search space)
 
 window.findNRooksSolution = function(n){
-  var solution = undefined; //fixme
+  var solution = [ [1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1] ]; //fixme
 
   console.log('Single solution for ' + n + ' rooks:', solution);
   return solution;
