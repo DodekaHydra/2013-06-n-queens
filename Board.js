@@ -73,6 +73,7 @@
 
      hasColConflictAt: function(colIndex){
        var result = this._currentAttributes[colIndex];
+       console.log(result, "+", _.contains(result,1));
        return _.contains(result, 1);
      },
 

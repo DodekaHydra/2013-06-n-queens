@@ -1,0 +1,10 @@
+var bitShiftedNQueens = function(n){
+  var output = 0;
+  for (var r = 0; r < n; r++){
+    for (var c = 0; c < n; c++){
+      if (c === r) { output += Math.pow(2, (4 * r) + c); }
+    }
+  }
+  console.log(output);
+};
+bitShiftedNQueens(4);
