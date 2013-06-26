@@ -1,7 +1,6 @@
 (function(){
 
   window.Board = Backbone.Model.extend({
-
     initialize: function(params){
       if (params.n) {
         this.set(makeEmptyMatrix(this.get('n')));
@@ -58,11 +57,17 @@
     // todo: fill in all these functions - they'll help you!
 
     hasRowConflictAt: function(rowIndex){
-      return false; // fixme
+      return _.contains(this._currentAttributes[rowIndex], 1);
     },
 
     hasAnyRowConflicts: function(){
-      return false; // fixme
+  //    debugger;
+      var result = false;
+      for (var i = 0; i < this._currentAttributes.n; i++){
+        result = this.hasRowConflictAt(i);
+        if (result) { break; }
+      }
+      return result; // fixme
     },
 
     hasColConflictAt: function(colIndex){
@@ -70,7 +75,12 @@
     },
 
     hasAnyColConflicts: function(){
-      return false; // fixme
+      var result = false;
+      for (var i = 0; i < this._currentAttributes.n; i++){
+        result = this.hasColConflictAt(i);
+        if (result) { break; }
+      }
+      return result; // fixme
     },
 
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow){

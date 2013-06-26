@@ -10,10 +10,15 @@ window.findNRooksSolution = function(n){
 };
 
 window.countNRooksSolutions = function(n){
-  var solutionCount = undefined; //fixme
+  var factorial = function(n){
+    if (n === 0 || n === 1) { return 1; }
+    else {
+      return factorial(n-1) * n;
+    }
+  };
 
-  console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
-  return solutionCount;
+  console.log('Number of solutions for ' + n + ' rooks:', factorial(n));
+  return factorial(n);
 };
 
 window.findNQueensSolution = function(n){
