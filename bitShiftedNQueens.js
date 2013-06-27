@@ -1,8 +1,7 @@
 window.bitShiftedNQueens = function(n){
   var curTotal = 0;
   var demo = [];
-  var column = [], backSlash = [], frontSlash = [], queenArray = [];
-  column.length = backSlash.length = frontSlash.length = queenArray.length = n;
+  var column = 1, backSlash = 1, frontSlash = 1, queenArray = [];
   // n-dim array construction for visualization
   // CAN DELETE
   for (var x = 0; x < n; x++){
@@ -11,30 +10,30 @@ window.bitShiftedNQueens = function(n){
   // placeholder
   var temp = 0;
   // column
+  //debugger;
   for (var r = 0; r < n; r++){
     for (var c = 0; c < n; c++){
-      //debugger;
       // if col, \, / are all not blacklisted
-      if (!(column[c]===1 || backSlash[c]===1 || frontSlash[c]===1)){
-        // assign bin val of cur pos
-        // bin -> dec = 2^(array position)
-        queenArray[c] = r;
-        column[c] = backSlash[c] = frontSlash[c] = 1;
-
+      if ( !(column & Math.pow(2, c)) && !(backSlash & Math.pow(2, c)) && !(frontSlash & Math.pow(2, c))){
+        queenArray[c] = r+1;
+        column = column | c; // add column
+        backSlash >>= 1;
+        frontSlash <<= 1;
+        break;
         // CAN DELETE
-        temp = Math.pow(2, (4 * r) + c);
-        curTotal += temp;
-        demo[r][c] = temp;
+        // temp = Math.pow(2, (4 * r) + c);
+        // curTotal += temp;
+        // demo[r][c] = temp;
       } else {
         demo[r][c] = 'x';
       }
     }
     // backSlash = \
-    backSlash <<= 1;
+    backSlash >>= 1;
     // frontSlash = /
-    frontSlash >>= 1;
+    frontSlash <<= 1;
   }
-  console.log(queenArray, "curTot", curTotal, "demo!\n", _.flatten(demo));
+  console.log("queen", queenArray, "\nbackSlash", backSlash, "\nfrontSlash", frontSlash, "\ndemo", _.flatten(demo));
 };
 // var  = function(curTotal, n, r){
 //   // if row+collision, return false
