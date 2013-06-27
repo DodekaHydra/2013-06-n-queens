@@ -4,7 +4,8 @@ window.bitShiftedNQueens = function(n){
   var column = 0, backward = 0, forward = 0, qArray = [], solutions=0;
   // set up collision space
   for (var x = 0; x < n; x++){
-    flag.push([-1]);
+    flag.push([]);
+    qArray[x]=0;
   }
   //debugger;
   var rowSpace = function(r){
@@ -27,7 +28,7 @@ window.bitShiftedNQueens = function(n){
       if (_.contains(qArray, r)){
         backward >>= 1;
         forward <<= 1;
-        flag = -1;
+        //flag = -1;
       // else if row not assigned, swap
       } else if (r > 1){
         console.log("R:",r,"\tF:",flag);
