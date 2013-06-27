@@ -10,10 +10,10 @@ window.bitShiftedNQueens = function(n){
   //debugger;
   var rowSpace = function(r){
     //debugger;
+    if (r<1){r=1;}
     for (r; r <= n; r++){
       // if not first row, shift \ & /
-      var c = 0;
-      for (c; c < n; c++){
+      for (var c = 0; c < n; c++){
         // if col, \, / are all not blacklisted
         if (!(_.contains(flag[r], c)) && !(column & Math.pow(2, c)) && !(backward & Math.pow(2, c)) && !(forward & Math.pow(2, c))){
           qArray[c] = r;
@@ -32,10 +32,11 @@ window.bitShiftedNQueens = function(n){
       // else if row not assigned, swap
       } else if (r > 1){
         console.log("R:",r,"\tF:",flag);
-        flag[r] = [-1]; // destroy broken descendants
+        flag[r] = []; // destroy broken descendants
         r--; // reduce row
-        flag[r].push(_.indexOf(qArray, r)); // find index of queen in previous row
-        qArray[flag] = 0; // reset queen
+        var temp = _.indexOf(qArray, r);
+        flag[[r][temp]] = temp; // find index of queen in previous row
+        qArray[ temp ] = 0; // reset queen
         backward <<= 1; // unshift
         forward >>= 1; // unshift
       }
