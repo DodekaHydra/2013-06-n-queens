@@ -1,81 +1,32 @@
 window.bitShiftedNQueens = function(n){
   var curTotal = 0;
   var demo = [];
-  var column = 1, backSlash = 1, frontSlash = 1, queenArray = [];
-  // n-dim array construction for visualization
-  // CAN DELETE
-  for (var x = 0; x < n; x++){
-    demo.push([]);
-  }
-  // placeholder
-  var temp = 0;
-  // column
+  var column = 0, backward = 0, forward = 0, queenArray = [];
+
   //debugger;
   for (var r = 0; r < n; r++){
+    // if not first row, shift \ & /
+
     for (var c = 0; c < n; c++){
       // if col, \, / are all not blacklisted
-      if ( !(column & Math.pow(2, c)) && !(backSlash & Math.pow(2, c)) && !(frontSlash & Math.pow(2, c))){
+      if ( !(column & Math.pow(2, c)) && !(backward & Math.pow(2, c)) && !(forward & Math.pow(2, c))){
         queenArray[c] = r+1;
-        column = column | c; // add column
-        backSlash >>= 1;
-        frontSlash <<= 1;
+        column += Math.pow(2,c); // add column
+        backward += Math.pow(2,c);
+        forward += Math.pow(2,c);
+        console.log("R:",r,"\tQ:",queenArray,"\tC:",column,"\tB:",backward,"\tF:",forward);
         break;
-        // CAN DELETE
-        // temp = Math.pow(2, (4 * r) + c);
-        // curTotal += temp;
-        // demo[r][c] = temp;
-      } else {
-        demo[r][c] = 'x';
       }
     }
-    // backSlash = \
-    backSlash >>= 1;
-    // frontSlash = /
-    frontSlash <<= 1;
+    if (_.contains(queenArray,r)){
+      backward >>= 1;
+      forward <<= 1;
+    } else {
+      // Swapping happens here.
+    }
   }
-  console.log("queen", queenArray, "\nbackSlash", backSlash, "\nfrontSlash", frontSlash, "\ndemo", _.flatten(demo));
+  console.log("queen", queenArray, "\nbackward", backward, "\nforward", forward, "\ndemo", _.flatten(demo));
 };
-// var  = function(curTotal, n, r){
-//   // if row+collision, return false
-//   if ((r>0) && (curTotal & (curTotal >> n*r))) { return false; }
-//   // else if r-1>0, recurse
-//   else if ((r-1) > 0) { this.vertCon(curTotal, n, r-1); }
-//   // else no collision
-//   else { return true; }
-// };
-// /*
-// c = cur val
-// o = past val
-// x = collision!
-//  _ _ _ O
-//  O _ _ _
-//  _ _ _ X
-//  _ _ N _
-// */
-// var diagPCon = function(curTotal, n, c, r){
-//   // if c+r+positively-directed collision, return false
-//   if (c>0 && r && (curTotal & (curTotal >> (n*(r)+(c))))) { return false; }
-//   // else if r-1>0, c-1>0; recurse
-//   else if (c-1 && r-1) { this.diagPCon(curTotal, n, c, r); }
-//   // else no collision
-//   else { return true; }
-// };
-// /*
-// c = cur val
-// o = past val
-// x = collision!
-//  _ _ _ O
-//  X _ _ _
-//  _ _ _ O
-//  _ _ N _
-// */
-// var diagNCon = function(curTotal, n, c, r){
-//   // if c <= n; r; negatively-directed collision, return false
-//   if (c <= n && r && (curTotal & (curTotal >> (n*(r)-(c))))) { return false; }
-//   // else if r-1>0, c+1<=n; recurse
-//   else if (c+1<=n && r-1) { this.diagNCon(curTotal, n, c-1, r-1); }
-//   else { return true; }
-// };
 
 
 // // window.depthSearch = function(){
