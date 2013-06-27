@@ -1,31 +1,45 @@
 window.bitShiftedNQueens = function(n){
   var curTotal = 0;
-  var demo = [];
-  var column = 0, backward = 0, forward = 0, queenArray = [];
+  var flag = [], r = 1;
+  var column = 0, backward = 0, forward = 0, qArray = [], solutions=0;
 
   //debugger;
-  for (var r = 0; r < n; r++){
-    // if not first row, shift \ & /
-
-    for (var c = 0; c < n; c++){
-      // if col, \, / are all not blacklisted
-      if ( !(column & Math.pow(2, c)) && !(backward & Math.pow(2, c)) && !(forward & Math.pow(2, c))){
-        queenArray[c] = r+1;
-        column += Math.pow(2,c); // add column
-        backward += Math.pow(2,c);
-        forward += Math.pow(2,c);
-        console.log("R:",r,"\tQ:",queenArray,"\tC:",column,"\tB:",backward,"\tF:",forward);
-        break;
+  var rowSpace = function(r){
+    //debugger;
+    for (r; r <= n; r++){
+      // if not first row, shift \ & /
+      var c = 0;
+      for (c; c < n; c++){
+        // if col, \, / are all not blacklisted
+        if ((flag !== c) && !(column & Math.pow(2, c)) && !(backward & Math.pow(2, c)) && !(forward & Math.pow(2, c))){
+          qArray[c] = r;
+          column += Math.pow(2,c); // add column
+          backward += Math.pow(2,c);
+          forward += Math.pow(2,c);
+          console.log("R:",r,"\tQ:",qArray,"\tC:",column,"\tB:",backward,"\tF:",forward);
+          break;
+        }
       }
+      // if row was assigned, shift bits
+      if (_.contains(qArray, r)){
+        backward >>= 1;
+        forward <<= 1;
+        flag = -1;
+      // else if row not assigned, swap
+      } else {
+        //debugger;
+        r--;
+        flag = _.indexOf(qArray, r); // find wrong index of previous row
+        qArray[flag] = 0;
+        backward <<= 1;
+        forward >>= 1;
+        rowSpace(r);
+      }
+      //flag = [];
     }
-    if (_.contains(queenArray,r)){
-      backward >>= 1;
-      forward <<= 1;
-    } else {
-      // Swapping happens here.
-    }
-  }
-  console.log("queen", queenArray, "\nbackward", backward, "\nforward", forward, "\ndemo", _.flatten(demo));
+    console.log("queen", qArray, "\nbackward", backward, "\nforward", forward);
+  };
+  rowSpace(r);
 };
 
 
