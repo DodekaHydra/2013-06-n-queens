@@ -2,7 +2,10 @@ window.bitShiftedNQueens = function(n){
   var curTotal = 0;
   var flag = [], r = 1;
   var column = 0, backward = 0, forward = 0, qArray = [], solutions=0;
-
+  // set up collision space
+  for (var x = 0; x < n; x++){
+    flag.push([-1]);
+  }
   //debugger;
   var rowSpace = function(r){
     //debugger;
@@ -11,12 +14,12 @@ window.bitShiftedNQueens = function(n){
       var c = 0;
       for (c; c < n; c++){
         // if col, \, / are all not blacklisted
-        if ((flag !== c) && !(column & Math.pow(2, c)) && !(backward & Math.pow(2, c)) && !(forward & Math.pow(2, c))){
+        if (!(_.contains(flag[r], c)) && !(column & Math.pow(2, c)) && !(backward & Math.pow(2, c)) && !(forward & Math.pow(2, c))){
           qArray[c] = r;
           column += Math.pow(2,c); // add column
           backward += Math.pow(2,c);
           forward += Math.pow(2,c);
-          console.log("R:",r,"\tQ:",qArray,"\tC:",column,"\tB:",backward,"\tF:",forward);
+          console.log("R:",r,"\tF:",flag,"\tQ:",qArray,"\tC:",column,"\tB:",backward,"\tF:",forward);
           break;
         }
       }
@@ -26,14 +29,14 @@ window.bitShiftedNQueens = function(n){
         forward <<= 1;
         flag = -1;
       // else if row not assigned, swap
-      } else {
-        //debugger;
-        r--;
-        flag = _.indexOf(qArray, r); // find wrong index of previous row
-        qArray[flag] = 0;
-        backward <<= 1;
-        forward >>= 1;
-        rowSpace(r);
+      } else if (r > 1){
+        console.log("R:",r,"\tF:",flag);
+        flag[r] = [-1]; // destroy broken descendants
+        r--; // reduce row
+        flag[r].push(_.indexOf(qArray, r)); // find index of queen in previous row
+        qArray[flag] = 0; // reset queen
+        backward <<= 1; // unshift
+        forward >>= 1; // unshift
       }
       //flag = [];
     }
