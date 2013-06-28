@@ -1,42 +1,18 @@
-window.bitShiftedNQueens = function(n){
+NQ = function(n){
   var solutions = 0;
   var rowSpace = function(r, backward, column, forward){
-    for (var c = 0; c < n; c++){
-      var placement = Math.pow(2,c);
-      var conflicts = (column | backward | forward);
-      if (!(conflicts & placement)) {
-        if (r+1 < n){
-          rowSpace(r+1, (backward + placement) >> 1, column + placement, (forward + placement) << 1);
-        } else {
-          solutions++;
-        }
+    for (var c = 1; c < 1 << n; c*=2){
+      if (!((column | backward | forward) & c)) {
+        if (r+1 < n) rowSpace(r+1, (backward + c) >> 1, column + c, (forward + c) << 1);
+        else solutions++
       }
     }
   };
   rowSpace(0, 0, 0, 0);
-  console.log(solutions);
-};
-
-
-
-// // window.depthSearch = function(){
-// //   var rootNode = structure.getRoot();
-// //   var preOrder = new Array();
-// //   var postOrder = new Array();
-// //   function DepthFirst( rootNode ){
-// //     preOrder[ preOrder.length ] = rootNode;
-
-// //     for( var child in rootNode ){
-// //       DepthFirst( child );
-// //     }
-
-// //     postOrder[ postOrder.length ] = rootNode;
-// //   }
-// // };
-
-// var factorial = function(n){
-//   if (n === 0 || n === 1) { return 1; }
-//   else {
-//     return factorial(n-1) * n;
-//   }
-// };
+}
+for (var i = 0; i < 18; i++){
+  var before = new Date();
+  NQ(i);
+  var after = new Date();
+  console.log(i,": ",after-before,"ms");
+}
